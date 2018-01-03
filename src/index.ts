@@ -43,9 +43,7 @@ const compareImages = (
       }
     }
   }
-  return isSame
-    ? newSameResult(image1, image2)
-    : newNotSameResult(image1, image2, diffImage);
+  return isSame ? newSameResult() : newNotSameResult(diffImage);
 };
 
 export {

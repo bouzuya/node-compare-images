@@ -64,11 +64,7 @@ const newNotSameDimensionResult = (
   };
 };
 
-const newNotSameResult = (
-  _image1: Image,
-  _image2: Image,
-  diffImage: Image
-): NotSameResult => {
+const newNotSameResult = (diffImage: Image): NotSameResult => {
   return {
     payload: {
       diffImage
@@ -77,7 +73,7 @@ const newNotSameResult = (
   };
 };
 
-const newSameResult = (_image1: Image, _image2: Image): SameResult => {
+const newSameResult = (): SameResult => {
   return { type: 'same' };
 };
 
