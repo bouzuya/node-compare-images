@@ -1,6 +1,7 @@
 import { Test, run, test } from 'beater';
 import * as assert from 'power-assert';
 import { Image, compareImages } from '../src';
+import { tests as newImageTests } from './new-image';
 
 const newImage = (height: number, width: number): Image => {
   const data = new Buffer(4 * width * height);
@@ -25,6 +26,6 @@ const tests: Test[] = [
     const image2 = newImage(1, 1);
     assert(compareImages(image1, image2) === true);
   })
-];
+].concat(newImageTests);
 
 run(tests).catch(() => process.exit(1));
