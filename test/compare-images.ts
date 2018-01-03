@@ -1,6 +1,14 @@
 import { Test, test } from 'beater';
 import * as assert from 'power-assert';
-import { Image, compareImages, newImage } from '../src';
+import {
+  Image,
+  compareImages,
+  getDiffImage,
+  getDiffDimension,
+  isSame,
+  isSameDimension,
+  newImage
+} from '../src';
 
 const newDummyImage = (height: number, width: number): Image => {
   const data = new Buffer(4 * width * height);
@@ -14,17 +22,19 @@ const tests: Test[] = [
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 2);
     const result = compareImages(image1, image2)
-    if (result.type !== 'not_same_dimension') throw new Error();
-    assert(result.payload.height === 0);
-    assert(result.payload.width === -1);
+    assert(isSameDimension(result) === false);
+    const { height, width } = getDiffDimension(result);
+    assert(height === 0);
+    assert(width === -1);
   }),
   test(category + 'not same dimention (height)', () => {
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(2, 1);
     const result = compareImages(image1, image2)
-    if (result.type !== 'not_same_dimension') throw new Error();
-    assert(result.payload.height === -1);
-    assert(result.payload.width === 0);
+    assert(isSameDimension(result) === false);
+    const { height, width } = getDiffDimension(result);
+    assert(height === -1);
+    assert(width === 0);
   }),
   test(category + 'not same', () => {
     const data = new Buffer(4 * 3 * 3);
@@ -38,19 +48,21 @@ const tests: Test[] = [
     const image1 = newImage(d1, 3, 3);
     const image2 = newImage(d2, 3, 3);
     const result = compareImages(image1, image2);
-    if (result.type !== 'not_same') throw new Error();
-    assert(result.payload.diffImage.height === 3);
-    assert(result.payload.diffImage.width === 3);
-    assert(result.payload.diffImage.data[0] === 0xff);
-    assert(result.payload.diffImage.data[0 + 1] === 0x00);
-    assert(result.payload.diffImage.data[0 + 2] === 0xff);
-    assert(result.payload.diffImage.data[0 + 3] === 0xff);
+    assert(isSameDimension(result) === true);
+    assert(isSame(result) === false);
+    assert(getDiffImage(result).height === 3);
+    assert(getDiffImage(result).width === 3);
+    assert(getDiffImage(result).data[0] === 0xff);
+    assert(getDiffImage(result).data[0 + 1] === 0x00);
+    assert(getDiffImage(result).data[0 + 2] === 0xff);
+    assert(getDiffImage(result).data[0 + 3] === 0xff);
   }),
   test(category + 'same dimention', () => {
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 1);
     const result = compareImages(image1, image2);
-    assert(result.type === 'same');
+    assert(isSameDimension(result) === true);
+    assert(isSame(result) === true);
   })
 ];
 

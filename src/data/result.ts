@@ -1,44 +1,74 @@
+import { Dimension } from './dimension';
 import { Image } from './image';
 
 export type Result =
-  NotSame |
-  NotSameDimension |
-  Same;
+  NotSameResult |
+  NotSameDimensionResult |
+  SameResult;
 
-export interface NotSame {
+export interface NotSameResult {
   payload: {
     diffImage: Image;
   };
   type: 'not_same';
 }
 
-export interface NotSameDimension {
+export interface NotSameDimensionResult {
   payload: {
-    height: number;
-    width: number;
+    dimension: {
+      height: number;
+      width: number;
+    };
   };
   type: 'not_same_dimension';
 }
 
-export interface Same {
+export interface SameResult {
   type: 'same';
 }
 
-const newNotSameDimension = (image1: Image, image2: Image): NotSameDimension => {
+const getDiffDimension = (result: Result): Dimension => {
+  if (result.type !== 'not_same_dimension') {
+    throw new Error('assert result.type === not_same_dimension');
+  }
+  return result.payload.dimension;
+}
+
+const getDiffImage = (result: Result): Image => {
+  if (result.type !== 'not_same') {
+    throw new Error('assert result.type === not_same');
+  }
+  return result.payload.diffImage;
+};
+
+const isSameDimension = (result: Result): boolean => {
+  return result.type !== 'not_same_dimension';
+};
+
+const isSame = (result: Result): boolean => {
+  return result.type === 'same';
+};
+
+const newNotSameDimensionResult = (
+  image1: Image,
+  image2: Image
+): NotSameDimensionResult => {
   return {
     payload: {
-      height: image1.height - image2.height,
-      width: image1.width - image2.width
+      dimension: {
+        height: image1.height - image2.height,
+        width: image1.width - image2.width
+      }
     },
     type: 'not_same_dimension'
   };
 };
 
-const newNotSame = (
+const newNotSameResult = (
   _image1: Image,
   _image2: Image,
   diffImage: Image
-): NotSame => {
+): NotSameResult => {
   return {
     payload: {
       diffImage
@@ -47,8 +77,16 @@ const newNotSame = (
   };
 };
 
-const newSame = (_image1: Image, _image2: Image): Same => {
+const newSameResult = (_image1: Image, _image2: Image): SameResult => {
   return { type: 'same' };
 };
 
-export { newNotSame, newNotSameDimension, newSame };
+export {
+  getDiffDimension,
+  getDiffImage,
+  isSameDimension,
+  isSame,
+  newNotSameResult,
+  newNotSameDimensionResult,
+  newSameResult
+};

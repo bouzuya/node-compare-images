@@ -1,3 +1,4 @@
+import { Dimension } from './data/dimension';
 import {
   Image,
   getPixel,
@@ -8,13 +9,14 @@ import {
 } from './data/image';
 import { isSamePixel, newPixel } from './data/pixel';
 import {
-  NotSame,
-  NotSameDimension,
   Result,
-  Same,
-  newNotSame,
-  newNotSameDimension,
-  newSame
+  getDiffDimension,
+  getDiffImage,
+  isSame,
+  isSameDimension as isSameDimensionResult,
+  newNotSameResult,
+  newNotSameDimensionResult,
+  newSameResult
 } from './data/result';
 
 const compareImages = (
@@ -22,7 +24,7 @@ const compareImages = (
   image2: Image
 ): Result => {
   if (!isSameDimension(image1, image2)) {
-    return newNotSameDimension(image1, image2);
+    return newNotSameDimensionResult(image1, image2);
   }
   const errorPixel = newPixel(0xff, 0x00, 0xff, 0xff);
   const height = image1.height; // = image2.height
@@ -42,16 +44,18 @@ const compareImages = (
     }
   }
   return isSame
-    ? newSame(image1, image2)
-    : newNotSame(image1, image2, diffImage);
+    ? newSameResult(image1, image2)
+    : newNotSameResult(image1, image2, diffImage);
 };
 
 export {
+  Dimension,
   Image,
-  NotSame,
-  NotSameDimension,
   Result,
-  Same,
   compareImages,
+  getDiffImage,
+  getDiffDimension,
+  isSame,
+  isSameDimensionResult as isSameDimension,
   newImage
 };
