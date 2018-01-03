@@ -1,0 +1,24 @@
+{
+  "name": "node-compare-images",
+  "description": "compare images",
+  "version": "0.0.0",
+  "author": {
+    "email": "m@bouzuya.net",
+    "name": "bouzuya",
+    "url": "http://bouzuya.net/"
+  },
+  "bugs": {
+    "url": "https://github.com/bouzuya/node-compare-images/issues"
+  },
+  "homepage": "https://github.com/bouzuya/node-compare-images#readme",
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bouzuya/node-compare-images.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
