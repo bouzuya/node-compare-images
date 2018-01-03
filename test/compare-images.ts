@@ -13,17 +13,24 @@ const tests: Test[] = [
   test(category + 'not same dimention (width)', () => {
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 2);
-    assert(compareImages(image1, image2) === false);
+    const result = compareImages(image1, image2)
+    if (result.type !== 'is_not_same_dimension') throw new Error();
+    assert(result.payload.height === 0);
+    assert(result.payload.width === -1);
   }),
   test(category + 'not same dimention (height)', () => {
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(2, 1);
-    assert(compareImages(image1, image2) === false);
+    const result = compareImages(image1, image2)
+    if (result.type !== 'is_not_same_dimension') throw new Error();
+    assert(result.payload.height === -1);
+    assert(result.payload.width === 0);
   }),
   test(category + 'same dimention', () => {
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 1);
-    assert(compareImages(image1, image2) === true);
+    const result = compareImages(image1, image2)
+    assert(result.type === 'is_same');
   })
 ];
 
