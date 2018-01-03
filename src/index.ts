@@ -1,8 +1,8 @@
 import { newImage } from './new-image';
-import { Image } from './type/image';
-import { Pixel } from './type/pixel';
-import { U8 } from './type/u8';
-import { NotSame, NotSameDimension, Result, Same } from './type/result';
+import { Image } from './data/image';
+import { Pixel } from './data/pixel';
+import { U8 } from './data/u8';
+import { NotSame, NotSameDimension, Result, Same } from './data/result';
 
 const getPixel = (image: Image, x: number, y: number): Pixel => {
   const data = image.data;
