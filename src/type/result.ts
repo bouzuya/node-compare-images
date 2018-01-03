@@ -1,6 +1,16 @@
+import { Image } from './image';
+
 export type Result =
+  NotSame |
   NotSameDimension |
   Same;
+
+export interface NotSame {
+  payload: {
+    diffImage: Image;
+  };
+  type: 'is_not_same';
+}
 
 export interface NotSameDimension {
   payload: {
