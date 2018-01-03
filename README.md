@@ -4,13 +4,13 @@ A library to compare images for Node.js.
 
 ## Installation
 
-```
+```sh
 npm install @bouzuya/compare-images
 ```
 
 ## Usage
 
-```
+```js
 import * as assert from 'assert';
 import {
   compareImages,
@@ -27,7 +27,7 @@ assert(isSame(result) === false);
 const diffImage = getDiffImage(result);
 ```
 
-```
+```js
 import * as assert from 'assert';
 import {
   compareImages,
