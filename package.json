@@ -7,8 +7,26 @@
     "name": "bouzuya",
     "url": "http://bouzuya.net/"
   },
+  "babel": {
+    "presets": [
+      "power-assert"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/bouzuya/node-compare-images/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^8.5.2",
+    "@types/power-assert": "^1.4.29",
+    "babel-cli": "^6.26.0",
+    "babel-preset-power-assert": "^1.0.0",
+    "beater": "^5.0.1",
+    "npm-run-all": "^4.1.2",
+    "power-assert": "^1.4.4",
+    "rimraf": "^2.6.2",
+    "tap-dot-b": "^0.1.0",
+    "typescript": "^2.6.2",
+    "watch": "^1.0.2"
   },
   "homepage": "https://github.com/bouzuya/node-compare-images#readme",
   "keywords": [],
@@ -19,6 +37,15 @@
     "url": "git+https://github.com/bouzuya/node-compare-images.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm-run-all -s \"build:es2015\" \"build:es5\"",
+    "build:es2015": "tsc",
+    "build:es5": "babel -q -d \".tmp/es5/\" \".tmp/es2015/\"",
+    "clean": "rimraf \".tmp\"",
+    "prepare": "npm-run-all -s \"clean\" \"build\"",
+    "test": "node .tmp/es5/test/index.js | tap-dot-b",
+    "watch": "npm-run-all -p \"watch:*\"",
+    "watch:es2015": "npm run build:es2015 -- --watch",
+    "watch:es5": "npm run build:es5 -- --watch",
+    "watch:test": "watch \"npm run test\" \".tmp/es5/\""
   }
 }
