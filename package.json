@@ -25,6 +25,7 @@
     "power-assert": "^1.4.4",
     "rimraf": "^2.6.2",
     "tap-dot-b": "^0.1.0",
+    "tslint": "^5.8.0",
     "typescript": "^2.6.2",
     "watch": "^1.0.2"
   },
@@ -37,9 +38,10 @@
     "url": "git+https://github.com/bouzuya/node-compare-images.git"
   },
   "scripts": {
-    "build": "npm-run-all -s \"build:es2015\" \"build:es5\"",
+    "build": "npm-run-all -s \"build:lint\" \"build:es2015\" \"build:es5\"",
     "build:es2015": "tsc",
     "build:es5": "babel -q -d \".tmp/es5/\" \".tmp/es2015/\"",
+    "build:lint": "tslint --project tsconfig.json",
     "clean": "rimraf \".tmp\"",
     "prepare": "npm-run-all -s \"clean\" \"build\"",
     "test": "node .tmp/es5/test/index.js | tap-dot-b",

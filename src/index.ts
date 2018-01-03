@@ -12,10 +12,10 @@ import {
   Result,
   getDiffDimension,
   getDiffImage,
-  isSame,
+  isSame as isSameResult,
   isSameDimension as isSameDimensionResult,
-  newNotSameResult,
   newNotSameDimensionResult,
+  newNotSameResult,
   newSameResult
 } from './data/result';
 
@@ -53,7 +53,7 @@ export {
   compareImages,
   getDiffImage,
   getDiffDimension,
-  isSame,
+  isSameResult as isSame,
   isSameDimensionResult as isSameDimension,
   newImage
 };

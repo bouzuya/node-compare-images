@@ -32,7 +32,7 @@ const getDiffDimension = (result: Result): Dimension => {
     throw new Error('assert result.type === not_same_dimension');
   }
   return result.payload.dimension;
-}
+};
 
 const getDiffImage = (result: Result): Image => {
   if (result.type !== 'not_same') {
