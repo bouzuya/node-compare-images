@@ -1,9 +1,26 @@
 import { newImage } from './new-image';
 import { Image } from './type/image';
+import { Pixel } from './type/pixel';
+import { U8 } from './type/u8';
 import { NotSame, NotSameDimension, Result, Same } from './type/result';
+
+const getPixel = (image: Image, x: number, y: number): Pixel => {
+  const data = image.data;
+  const index = 4 * (y * image.width + x);
+  return {
+    r: data[index],
+    g: data[index + 1],
+    b: data[index + 2],
+    a: data[index + 3]
+  };
+};
 
 const isSameDimension = (image1: Image, image2: Image): boolean => {
   return image1.height === image2.height && image1.width === image2.width;
+};
+
+const isSamePixel = (p1: Pixel, p2: Pixel): boolean => {
+  return p1.r === p2.r && p1.g === p2.g && p1.b === p2.b && p1.a === p2.a;
 };
 
 const newNotSameDimension = (image1: Image, image2: Image): NotSameDimension => {
@@ -29,8 +46,21 @@ const newNotSame = (
   };
 };
 
+const newPixel = (r: U8, g: U8, b: U8, a: U8): Pixel => {
+  return { r, g, b, a };
+};
+
 const newSame = (_image1: Image, _image2: Image): Same => {
   return { type: 'is_same' };
+};
+
+const setPixel = (image: Image, x: number, y: number, p: Pixel): void => {
+  const data = image.data;
+  const index = 4 * (y * image.width + x);
+  data[index] = p.r;
+  data[index + 1] = p.g;
+  data[index + 2] = p.b;
+  data[index + 3] = p.a;
 };
 
 const compareImages = (
@@ -47,26 +77,12 @@ const compareImages = (
   let isSame = true;
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const index = 4 * (y * width + x);
-      const r1 = image1.data[index];
-      const g1 = image1.data[index + 1];
-      const b1 = image1.data[index + 2];
-      const a1 = image1.data[index + 3];
-      const r2 = image2.data[index];
-      const g2 = image2.data[index + 1];
-      const b2 = image2.data[index + 2];
-      const a2 = image2.data[index + 3];
-      const isSamePixel = r1 === r2 && g1 === g2 && b1 === b2 && a1 === a2;
-      if (isSamePixel) {
-        diffImage.data[index] = r1; // = r2
-        diffImage.data[index + 1] = g1; // = g2
-        diffImage.data[index + 2] = b1; // = b2
-        diffImage.data[index + 3] = a1; // = a2
+      const p1 = getPixel(image1, x, y);
+      const p2 = getPixel(image2, x, y);
+      if (isSamePixel(p1, p2)) {
+        setPixel(diffImage, x, y, p1); // = p2
       } else {
-        diffImage.data[index] = 0xff;
-        diffImage.data[index + 1] = 0x00;
-        diffImage.data[index + 2] = 0xff;
-        diffImage.data[index + 3] = 0xff;
+        setPixel(diffImage, x, y, newPixel(0xff, 0x00, 0xff, 0xff));
         isSame = false;
       }
     }
