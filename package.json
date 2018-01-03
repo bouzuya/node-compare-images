@@ -1,6 +1,6 @@
 {
-  "name": "node-compare-images",
-  "description": "compare images",
+  "name": "@bouzuya/compare-images",
+  "description": "A library to compare images for Node.js",
   "version": "0.0.0",
   "author": {
     "email": "m@bouzuya.net",
