@@ -14,7 +14,7 @@ const tests: Test[] = [
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 2);
     const result = compareImages(image1, image2)
-    if (result.type !== 'is_not_same_dimension') throw new Error();
+    if (result.type !== 'not_same_dimension') throw new Error();
     assert(result.payload.height === 0);
     assert(result.payload.width === -1);
   }),
@@ -22,7 +22,7 @@ const tests: Test[] = [
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(2, 1);
     const result = compareImages(image1, image2)
-    if (result.type !== 'is_not_same_dimension') throw new Error();
+    if (result.type !== 'not_same_dimension') throw new Error();
     assert(result.payload.height === -1);
     assert(result.payload.width === 0);
   }),
@@ -38,7 +38,7 @@ const tests: Test[] = [
     const image1 = newImage(d1, 3, 3);
     const image2 = newImage(d2, 3, 3);
     const result = compareImages(image1, image2);
-    if (result.type !== 'is_not_same') throw new Error();
+    if (result.type !== 'not_same') throw new Error();
     assert(result.payload.diffImage.height === 3);
     assert(result.payload.diffImage.width === 3);
     assert(result.payload.diffImage.data[0] === 0xff);
@@ -50,7 +50,7 @@ const tests: Test[] = [
     const image1 = newDummyImage(1, 1);
     const image2 = newDummyImage(1, 1);
     const result = compareImages(image1, image2);
-    assert(result.type === 'is_same');
+    assert(result.type === 'same');
   })
 ];
 
