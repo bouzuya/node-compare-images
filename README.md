@@ -47,6 +47,16 @@ assert(isSameDimension(result) === false);
 const diffDimension = getDiffDimension(result);
 ```
 
+## Badges
+
+[![npm version][npm-badge-url]][npm-url]
+[![Travis CI][travisci-badge-url]][travisci-url]
+
+[npm-badge-url]: https://img.shields.io/npm/v/@bouzuya/compare-images.svg
+[npm-url]: https://www.npmjs.com/package/@bouzuya/compare-images
+[travisci-badge-url]: https://img.shields.io/travis/bouzuya/node-compare-images.svg?branch=master
+[travisci-url]: https://travis-ci.org/bouzuya/node-compare-images
+
 ## License
 
 [MIT](LICENSE)
