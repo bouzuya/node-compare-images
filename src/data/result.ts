@@ -8,6 +8,8 @@ export type Result =
 
 export interface NotSameResult {
   payload: {
+    allPixelCount: number;
+    diffPixelCount: number;
     diffImage: Image;
   };
   type: 'not_same';
@@ -27,6 +29,13 @@ export interface SameResult {
   type: 'same';
 }
 
+const getAllPixelCount = (result: Result): number => {
+  if (result.type !== 'not_same') { // TODO: support 'same' ?
+    throw new Error('assert result.type === not_same');
+  }
+  return result.payload.allPixelCount;
+};
+
 const getDiffDimension = (result: Result): Dimension => {
   if (result.type !== 'not_same_dimension') {
     throw new Error('assert result.type === not_same_dimension');
@@ -39,6 +48,13 @@ const getDiffImage = (result: Result): Image => {
     throw new Error('assert result.type === not_same');
   }
   return result.payload.diffImage;
+};
+
+const getDiffPixelCount = (result: Result): number => {
+  if (result.type !== 'not_same') {
+    throw new Error('assert result.type === not_same');
+  }
+  return result.payload.diffPixelCount;
 };
 
 const isSameDimension = (result: Result): boolean => {
@@ -64,10 +80,16 @@ const newNotSameDimensionResult = (
   };
 };
 
-const newNotSameResult = (diffImage: Image): NotSameResult => {
+const newNotSameResult = (
+  diffImage: Image,
+  allPixelCount: number,
+  diffPixelCount: number
+): NotSameResult => {
   return {
     payload: {
-      diffImage
+      allPixelCount,
+      diffImage,
+      diffPixelCount
     },
     type: 'not_same'
   };
@@ -78,7 +100,9 @@ const newSameResult = (): SameResult => {
 };
 
 export {
+  getAllPixelCount,
   getDiffDimension,
+  getDiffPixelCount,
   getDiffImage,
   isSameDimension,
   isSame,

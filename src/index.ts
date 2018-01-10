@@ -10,8 +10,10 @@ import {
 import { Pixel, isSamePixel, newPixel } from './data/pixel';
 import {
   Result,
+  getAllPixelCount,
   getDiffDimension,
   getDiffImage,
+  getDiffPixelCount,
   isSame as isSameResult,
   isSameDimension as isSameDimensionResult,
   newNotSameDimensionResult,
@@ -35,6 +37,7 @@ const compareImages = (
   const height = image1.height; // = image2.height
   const width = image1.width; // = image2.width
   const diffImage = newBlankImage(height, width);
+  let samePixelCount = 0;
   let isSame = true;
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -42,10 +45,15 @@ const compareImages = (
       const p2 = getPixel(image2, x, y);
       const [b, p] = comparePixels(p1, p2);
       setPixel(diffImage, x, y, p);
+      samePixelCount += b ? 1 : 0;
       isSame = isSame && b;
     }
   }
-  return isSame ? newSameResult() : newNotSameResult(diffImage);
+  const allPixelCount = width * height;
+  const diffPixelCount = allPixelCount - samePixelCount;
+  return isSame
+    ? newSameResult()
+    : newNotSameResult(diffImage, allPixelCount, diffPixelCount);
 };
 
 export {
@@ -53,8 +61,10 @@ export {
   Image,
   Result,
   compareImages,
+  getAllPixelCount,
   getDiffImage,
   getDiffDimension,
+  getDiffPixelCount,
   isSameResult as isSame,
   isSameDimensionResult as isSameDimension,
   newImage

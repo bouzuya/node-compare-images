@@ -3,8 +3,10 @@ import * as assert from 'power-assert';
 import {
   Image,
   compareImages,
+  getAllPixelCount,
   getDiffDimension,
   getDiffImage,
+  getDiffPixelCount,
   isSame,
   isSameDimension,
   newImage
@@ -50,12 +52,14 @@ const tests: Test[] = [
     const result = compareImages(image1, image2);
     assert(isSameDimension(result) === true);
     assert(isSame(result) === false);
+    assert(getAllPixelCount(result) === 9);
     assert(getDiffImage(result).height === 3);
     assert(getDiffImage(result).width === 3);
     assert(getDiffImage(result).data[0] === 0xff);
     assert(getDiffImage(result).data[0 + 1] === 0x00);
     assert(getDiffImage(result).data[0 + 2] === 0xff);
     assert(getDiffImage(result).data[0 + 3] === 0xff);
+    assert(getDiffPixelCount(result) === 1);
   }),
   test(category + 'same dimention', () => {
     const image1 = newDummyImage(1, 1);
